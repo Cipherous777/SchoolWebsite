@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin • IIS Portal Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    :root {
+      --primary: #1e40af;
+      --secondary: #667eea;
+      --white: #ffffff;
+      --gray: #e2e8f0;
+      --light: #f8fafc;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f0f4f8 0%, #e0e7ff 100%);
+      min-height: 100vh;
+      color: #1e293b;
+    }
+    .portal-header {
+      background: var(--white);
+      padding: 18px 5%;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .logo h1 { color: var(--primary); font-family: 'Playfair Display', serif; font-size: 28px; }
+    .logo img { width: 55px; height: 55px; border-radius: 50%; border: 3px solid var(--primary); }
+
+    .container { 
+      max-width: 1400px; 
+      margin: 40px auto; 
+      padding: 20px; 
+      width: 100%;
+    }
+    .card { 
+      background: white; 
+      border-radius: 20px; 
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1); 
+      padding: 40px; 
+      width: 100%;
+      overflow: hidden;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      background: #f1f5f9;
+      border-radius: 16px;
+      padding: 8px;
+      margin-bottom: 30px;
+      overflow-x: auto;
+    }
+    .tab {
+      padding: 14px 30px;
+      background: transparent;
+      border: none;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      border-radius: 12px;
+      white-space: nowrap;
+      transition: all 0.3s;
+    }
+    .tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Sub tabs for Applications */
+    .sub-tabs {
+      display: flex;
+      gap: 12px;
+      margin: 20px 0;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e2e8f0;
+      overflow-x: auto;
+    }
+    .sub-tab {
+      padding: 10px 20px;
+      background: transparent;
+      border: none;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+    .sub-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .sub-content { display: none; }
+    .sub-content.active { display: block; }
+
+    h2 { 
+      font-family: 'Playfair Display', serif; 
+      color: var(--primary); 
+      text-align: center; 
+      font-size: 2.6rem; 
+      margin-bottom: 20px; 
+    }
+
+    .search-box {
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 18px 60px 18px 50px;
+      font-size: 18px;
+      border: 2px solid var(--gray);
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+    .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 6px rgba(30,64,175,0.2); }
+    .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 22px; }
+    .clear-search { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 20px; color: #94a3b8; cursor: pointer; display: none; }
+    .clear-search.show { display: block; }
+
+    .stats { text-align: center; margin: 25px 0; font-size: 1.4rem; color: #475569; }
+    .stats strong { font-size: 2.2rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    /* RESPONSIVE TABLE CONTAINER */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      min-width: 800px; /* Minimum width before scrolling kicks in */
+    }
+    th { 
+      background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+      color: white; 
+      padding: 18px; 
+      text-align: center; 
+      white-space: nowrap;
+    }
+    td { 
+      padding: 18px; 
+      text-align: center; 
+      background: #fafbff; 
+      border-bottom: 1px solid var(--gray); 
+    }
+    tr:hover td { background: #edf2ff; }
+    .code { background: #e0e7ff; padding: 8px 14px; border-radius: 10px; font-weight: bold; color: var(--primary); }
+    .resume-link { color: var(--primary); text-decoration: none; font-weight: 600; }
+    .resume-link:hover { text-decoration: underline; }
+
+    .no-results { text-align: center; padding: 80px; color: #94a3b8; font-size: 20px; }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px auto;
+        padding: 15px;
+      }
+      
+      .card {
+        padding: 30px 20px;
+      }
+      
+      h2 {
+        font-size: 2rem;
+      }
+      
+      .search-input {
+        padding: 15px 50px 15px 45px;
+        font-size: 16px;
+      }
+      
+      th, td {
+        padding: 14px 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 20px 15px;
+      }
+      
+      h2 {
+        font-size: 1.8rem;
+      }
+      
+      .search-input {
+        padding: 12px 45px 12px 40px;
+        font-size: 15px;
+      }
+      
+      th, td {
+        padding: 12px 8px;
+        font-size: 14px;
+      }
+      
+      .stats {
+        font-size: 1.2rem;
+      }
+      
+      .stats strong {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="portal-header">
+    <a href="/" class="logo" style="display:flex; align-items:center; gap:12px; text-decoration:none;">
+      <img src="/images/portal-logo.png" alt="IIS">
+      <h1>IIS Portal</h1>
+    </a>
+    <div style="text-align:right;">
+      <strong style="color:var(--primary); font-size:22px;">Admin Dashboard</strong><br>
+      <small>Full Control • 2024/25</small>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+
+      <!-- MAIN TABS -->
+      <div class="tabs">
+        <button class="tab active" data-tab="registered">Registered Students</button>
+        <button class="tab" data-tab="applications">New Applications</button>
+      </div>
+
+      <!-- TAB 1: Registered Students -->
+      <div id="registered" class="tab-content active">
+        <h2>Registered Students Directory</h2>
+        <div class="search-box">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="searchStudents" class="search-input" placeholder="Search by name, code, or grade...">
+          <button class="clear-search" id="clearStudents">×</button>
+        </div>
+        <div class="stats">Total: <strong><%= registeredStudents.length %></strong></div>
+
+        <% if (registeredStudents.length === 0) { %>
+          <div class="no-results">No registered students yet.</div>
+        <% } else { %>
+          <div class="table-container">
+            <table id="studentsTable">
+              <thead><tr><th>Code</th><th>Name</th><th>Grade</th></tr></thead>
+              <tbody>
+                <% registeredStudents.forEach(s => { %>
+                  <tr>
+                    <td><span class="code"><%= s.code %></span></td>
+                    <td><strong><%= s.name %></strong></td>
+                    <td>Grade <%= s.grade %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </div>
+
+      <!-- TAB 2: New Applications -->
+      <div id="applications" class="tab-content">
+
+        <!-- Sub Tabs -->
+        <div class="sub-tabs">
+          <button class="sub-tab active" data-sub="teacher">Teacher/Staff</button>
+          <button class="sub-tab" data-sub="student">Student Registration</button>
+        </div>
+
+        <!-- Teacher Applications -->
+        <div id="teacher" class="sub-content active">
+          <h2>Teacher & Staff Applications</h2>
+          <div class="search-box">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchTeacher" class="search-input" placeholder="Search by name, email, phone...">
+            <button class="clear-search" id="clearTeacher">×</button>
+          </div>
+          <div class="stats">Total: <strong><%= teacherApps.length %></strong></div>
+
+          <% if (teacherApps.length === 0) { %>
+            <div class="no-results">No teacher applications yet.</div>
+          <% } else { %>
+            <div class="table-container">
+              <table id="teacherTable">
+                <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Cover Letter</th><th>Resume</th><th>Applied</th></tr></thead>
+                <tbody>
+                  <% teacherApps.forEach(a => { %>
+                    <tr>
+                      <td><strong><%= a.fullName %></strong></td>
+                      <td><%= a.email %></td>
+                      <td><%= a.phone %></td>
+                      <td style="max-width:300px; text-align:left;"><%= a.coverLetter %></td>
+                      <td>
+                        <% if (a.resumeUrl) { %>
+                          <a href="<%= a.resumeUrl %>" target="_blank" class="resume-link">Download Resume</a>
+                        <% } else { %>—<% } %>
+                      </td>
+                      <td><%= new Date(a.appliedAt).toLocaleDateString() %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
+        </div>
+
+        <!-- Student Registration Applications -->
+        <div id="student" class="sub-content">
+          <h2>New Student Registration Applications</h2>
+          <div class="search-box">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchStudentApp" class="search-input" placeholder="Search by name, parent phone...">
+            <button class="clear-search" id="clearStudentApp">×</button>
+          </div>
+          <div class="stats">Total: <strong><%= studentApps.length %></strong></div>
+
+          <% if (studentApps.length === 0) { %>
+            <div class="no-results">No new student applications yet.</div>
+          <% } else { %>
+            <div class="table-container">
+              <table id="studentAppTable">
+                <thead><tr><th>Student Name</th><th>Parent Phone</th><th>Parent Email</th><th>Document</th><th>Applied</th></tr></thead>
+                <tbody>
+                  <% studentApps.forEach(a => { %>
+                    <tr>
+                      <td><strong><%= a.fullName %></strong></td>
+                      <td><%= a.parentPhone %></td>
+                      <td><%= a.parentEmail %></td>
+                      <td>
+                        <% if (a.filePath) { %>
+                          <a href="<%= a.filePath %>" target="_blank" class="resume-link">View Document</a>
+                        <% } else { %>—<% } %>
+                      </td>
+                      <td><%= new Date(a.appliedAt).toLocaleDateString() %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Main Tabs
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Sub Tabs
+    document.querySelectorAll('.sub-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.sub-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.sub).classList.add('active');
+      });
+    });
+
+    // Search functions
+    function setupSearch(inputId, tableId, clearId) {
+      const input = document.getElementById(inputId);
+      const clear = document.getElementById(clearId);
+      const table = document.getElementById(tableId);
+      
+      if (!table) return; // Skip if table doesn't exist (empty data)
+      
+      const rows = table.querySelectorAll('tbody tr');
+
+      input.addEventListener('input', () => {
+        const query = input.value.toLowerCase();
+        let visibleCount = 0;
+        
+        rows.forEach(row => {
+          const matches = row.textContent.toLowerCase().includes(query);
+          row.style.display = matches ? '' : 'none';
+          if (matches) visibleCount++;
+        });
+        
+        clear.classList.toggle('show', query.length > 0);
+        
+        // Update stats count for visible rows
+        const statsElement = input.closest('.sub-content').querySelector('.stats strong');
+        if (statsElement && query.length > 0) {
+          statsElement.textContent = visibleCount;
+        } else if (statsElement) {
+          // Reset to original count when search is cleared
+          const originalCount = table.querySelectorAll('tbody tr').length;
+          statsElement.textContent = originalCount;
+        }
+      });
+
+      clear.addEventListener('click', () => {
+        input.value = ''; 
+        input.focus();
+        clear.classList.remove('show');
+        rows.forEach(row => row.style.display = '');
+        
+        // Reset stats count
+        const statsElement = input.closest('.sub-content').querySelector('.stats strong');
+        if (statsElement) {
+          const originalCount = table.querySelectorAll('tbody tr').length;
+          statsElement.textContent = originalCount;
+        }
+      });
+    }
+
+    // Initialize all search functions
+    document.addEventListener('DOMContentLoaded', () => {
+      setupSearch('searchStudents', 'studentsTable', 'clearStudents');
+      setupSearch('searchTeacher', 'teacherTable', 'clearTeacher');
+      setupSearch('searchStudentApp', 'studentAppTable', 'clearStudentApp');
+    });
+  </script>
+</body>
+</html>

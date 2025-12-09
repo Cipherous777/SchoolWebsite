@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IIS Primary School</title>
+
+    <!-- 1. Load your global variables first -->
+    <link rel="stylesheet" href="CSS/main.css" />
+    <!-- 2. Then load page-specific styles -->
+    <link rel="stylesheet" href="CSS/primary.css" />
+  </head>
+  <body>
+    <section class="hero" style="height: 0vh">
+      <div class="container">
+        <!-- LOGO + NAV -->
+        <div class="hero-header">
+          <a href="/">
+            <div class="hero-logo">
+              <img src="/Images/logo2.png" alt="IIS Logo" class="logo-img" />
+              <span class="school-name">Indian International School</span>
+            </div>
+          </a>
+          <nav class="hero-nav">
+            <ul class="nav-menu">
+              <ul class="nav-menu">
+                <li><a href="/" class="nav-link active">Home</a></li>
+                <li><a href="/about" class="nav-link">About</a></li>
+                <li><a href="news" class="nav-link">News</a></li>
+                <li><a href="/gallery" class="nav-link">Gallery</a></li>
+                <li><a href="/contact" class="nav-link">Contact</a></li>
+                <li><a href="/register" class="nav-link">Register</a></li>
+              </ul>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- Primary Banner (styles in primary.css) -->
+    <section class="primary-banner">
+      <div class="container banner-inner">
+        <h1 class="banner-title">Primary School</h1>
+        <p class="banner-subtitle">
+          Building strong foundations with curiosity, confidence, and care
+        </p>
+      </div>
+    </section>
+
+    <!-- Rest uses main.css -->
+    <main class="main">
+      <div class="container">
+        <!-- Welcome -->
+        <section class="section welcome">
+          <h2>Welcome to IIS Primary</h2>
+          <p>
+            Our Primary School (Grades 1–5) focuses on academic excellence,
+            character development, and joyful learning.
+          </p>
+        </section>
+
+        <!-- Gallery -->
+        <section class="section gallery">
+          <h2>Learning in Action</h2>
+          <div class="gallery-grid">
+            <img src="assets/images/primary-1.jpg" alt="" />
+            <img src="assets/images/primary-2.jpg" alt="" />
+            <img src="assets/images/primary-3.jpg" alt="" />
+            <img src="assets/images/primary-4.jpg" alt="" />
+          </div>
+          <div class="btn-wrapper">
+            <a href="#" class="btn">View Full Gallery</a>
+          </div>
+        </section>
+
+        <!-- Features -->
+        <section class="section features">
+          <h2>Why IIS Primary?</h2>
+          <div class="features-grid">
+            <div class="feature-card">
+              <h3>Structured Curriculum</h3>
+              <p>Aligned with international standards.</p>
+            </div>
+            <div class="feature-card">
+              <h3>STEM & Creativity</h3>
+              <p>Hands-on science and arts.</p>
+            </div>
+            <div class="feature-card">
+              <h3>Small Class Sizes</h3>
+              <p>Personalized attention.</p>
+            </div>
+            <div class="feature-card">
+              <h3>Values & Leadership</h3>
+              <p>Building empathy and confidence.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>© 2025 IIS. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+<style>
+  /* ========================================
+   PRIMARY SCHOOL – PAGE-SPECIFIC STYLES
+   Only banner + unique elements
+   ======================================== */
+
+  /* Primary Banner */
+  .primary-banner {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%),
+      url("../assets/images/primary-hero.jpg") center/cover no-repeat;
+    color: #2d6a4f;
+    text-align: center;
+    padding: 6.5rem 1rem;
+    border-radius: 0 0 24px 24px;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .primary-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.85);
+    z-index: 1;
+  }
+
+  .banner-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .banner-title {
+    font-size: 3.4rem;
+    font-weight: 800;
+    margin-bottom: 0.8rem;
+    color: #2d6a4f;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .banner-subtitle {
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: #2d6a4f;
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+
+  /* Floating Book */
+  .primary-banner::after {
+    content: "Book";
+    position: absolute;
+    font-size: 2.5rem;
+    top: 25%;
+    right: 12%;
+    animation: floatBook 7s ease-in-out infinite;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  @keyframes floatBook {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-18px) rotate(8deg);
+    }
+  }
+
+  /* Responsive Banner */
+  @media (max-width: 768px) {
+    .primary-banner {
+      padding: 4rem 1rem;
+    }
+    .banner-title {
+      font-size: 2.6rem;
+    }
+    .banner-subtitle {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .banner-title {
+      font-size: 2.2rem;
+    }
+  }
+</style>

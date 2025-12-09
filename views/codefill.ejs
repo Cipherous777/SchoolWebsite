@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IIS Portal • Student Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    :root { --primary: #1e40af; --secondary: #667eea; --white: #ffffff; --gray: #e2e8f0; --light: #f8fafc; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f0f4f8 0%, #e0e7ff 100%);
+      min-height: 100vh;
+      color: #1e293b;
+    }
+    .portal-header {
+      background: var(--white);
+      padding: 20px 5%;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .logo img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 3px solid var(--primary);
+      object-fit: cover;
+    }
+    .logo h1 {
+      color: var(--primary);
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+    }
+    .signup-btn {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    .signup-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(30,64,175,0.3); }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+      padding: 50px;
+      text-align: center;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+    p.subtitle {
+      font-size: 1.2rem;
+      color: #64748b;
+      margin-bottom: 40px;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 30px;
+    }
+    .full-width { grid-column: span 2; }
+
+    .input-group {
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid var(--gray);
+      border-radius: 16px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 6px rgba(30,64,175,0.15);
+    }
+    .file-input {
+      padding: 40px;
+      border: 3px dashed var(--gray);
+      border-radius: 20px;
+      background: #f8f9ff;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .file-input:hover {
+      border-color: var(--primary);
+      background: #edf2ff;
+    }
+
+    .btn-group {
+      grid-column: span 2;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .btn-prev, .btn-next {
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 17px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-prev {
+      background: #e2e8f0;
+      color: #475569;
+      border: none;
+    }
+    .btn-next {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+    }
+    .btn-prev:hover { background: #cbd5e1; }
+    .btn-next:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(30,64,175,0.4); }
+
+    @media (max-width: 768px) {
+      form { grid-template-columns: 1fr; }
+      .btn-group { flex-direction: column; gap: 15px; }
+      .btn-prev, .btn-next { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="portal-header">
+    <a href="/register.portal" class="logo">
+      <img src="/Images/portal-logo.png" alt="IIS Portal Logo" />
+      <h1>IIS Portal</h1>
+    </a>
+    <a href="/login">
+      <button class="signup-btn">Log in</button>
+    </a>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h2>Student Registration</h2>
+      <p class="subtitle">Please fill in the details carefully</p>
+
+      <form action="/register.portal/submit-codefill" method="POST" enctype="multipart/form-data">
+        <div class="input-group">
+          <label>Student's Full Name</label>
+          <input type="text" name="fullName" placeholder="e.g. Ahmed Mohammed Ali" required />
+        </div>
+
+        <div class="input-group">
+          <label>Parent's Phone Number</label>
+          <input type="tel" name="phone" placeholder="+252 6xx xxx xxx" required />
+        </div>
+
+        <div class="input-group">
+          <label>Parent's Email</label>
+          <input type="email" name="email" placeholder="parent@example.com" required />
+        </div>
+
+        <div class="input-group full-width">
+          <label>Upload Supporting Documents (Optional)</label>
+          <div class="file-input">
+            <i class="fas fa-cloud-upload-alt fa-3x" style="color:var(--primary); margin-bottom:16px;"></i>
+            <p>Click to upload birth certificate, photo, or previous report</p>
+            <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" style="opacity:0; position:absolute; width:100%; height:100%; cursor:pointer;" />
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn-prev" onclick="history.back()">Previous</button>
+          <button type="submit" class="btn-next">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

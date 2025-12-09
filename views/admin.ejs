@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login • IIS Portal</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Your Main CSS -->
+    <link rel="stylesheet" href="/CSS/main.css" />
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--Font--);
+        background: linear-gradient(
+          135deg,
+          var(--Primary-Color--) 0%,
+          var(--Secondary-Color--) 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+      }
+
+      .login-wrapper {
+        width: 100%;
+        max-width: 420px;
+      }
+
+      .login-card {
+        background: var(--White--);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .login-header {
+        background: var(--Primary-Color--);
+        color: var(--White--);
+        padding: 2rem 1.5rem;
+        text-align: center;
+      }
+
+      .login-header h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .login-header p {
+        font-size: 0.95rem;
+        opacity: 0.9;
+      }
+
+      .login-body {
+        padding: 2.5rem 2rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.6rem;
+        font-weight: 600;
+        color: var(--Dark--);
+        font-size: 0.95rem;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 0.9rem 1rem;
+        padding-right: 3rem;
+        border: 1.5px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #fafafa;
+        font-family: var(--Font--);
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--Primary-Color--);
+        background: var(--White--);
+        box-shadow: 0 0 0 4px rgba(46, 102, 216, 0.12);
+      }
+
+      .input {
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+
+      .toggle-password {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--Gray--);
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-family: var(--Font--);
+        padding: 0.25rem;
+        transition: color 0.2s;
+      }
+
+      .toggle-password:hover {
+        color: var(--Primary-Color--);
+      }
+
+      .btn-login {
+        width: 100%;
+        padding: 0.95rem;
+        background: var(--Primary-Color--);
+        font-family: var(--Font--);
+        color: var(--White--);
+        border: none;
+        border-radius: 50px;
+        font-size: 1.05rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 0.5rem;
+      }
+
+      .btn-login:hover {
+        background: #1a4fa8;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(46, 102, 216, 0.3);
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 0.85rem 1rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        text-align: center;
+        display: none;
+        animation: shake 0.5s ease;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-6px);
+        }
+        75% {
+          transform: translateX(6px);
+        }
+      }
+
+      .login-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: var(--Gray--);
+        font-size: 0.85rem;
+      }
+
+      .login-footer a {
+        color: var(--Primary-Color--);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .login-footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 480px) {
+        .login-header h1 {
+          font-size: 1.6rem;
+        }
+        .login-body {
+          padding: 2rem 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-wrapper">
+      <div class="login-card">
+        <!-- Header -->
+        <div class="login-header">
+          <h1>Admin Portal</h1>
+          <p>Secure access to registration data</p>
+        </div>
+
+        <!-- Body -->
+        <div class="login-body">
+          <div class="form-group">
+            <label for="password">Admin Password</label>
+            <div class="input">
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                placeholder="Enter password"
+                autocomplete="off"
+              />
+              <button type="button" class="toggle-password" id="togglePassword">
+                Show
+              </button>
+            </div>
+          </div>
+
+          <button type="button" id="loginBtn" class="btn-login">
+            Login to Admin
+          </button>
+
+          <!-- Error Message -->
+          <div id="errorMessage" class="error-message">
+            Incorrect password. Please try again.
+          </div>
+
+          <div class="login-footer">
+            <a href="/">Back to Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // === VANILLA JS ONLY ===
+      const passwordInput = document.getElementById("password");
+      const toggleBtn = document.getElementById("togglePassword");
+      const loginBtn = document.getElementById("loginBtn");
+      const errorMsg = document.getElementById("errorMessage");
+
+      // Toggle Show/Hide
+      toggleBtn.addEventListener("click", () => {
+        const isPassword = passwordInput.type === "password";
+        passwordInput.type = isPassword ? "text" : "password";
+        toggleBtn.textContent = isPassword ? "Hide" : "Show";
+      });
+
+      // Login Check
+      loginBtn.addEventListener("click", () => {
+        const input = passwordInput.value.trim();
+
+        // CHANGE THIS PASSWORD!
+        const CORRECT_PASSWORD = "iisadmin2025";
+
+        if (input === CORRECT_PASSWORD) {
+          // Success
+          window.location.href = "/portal.admin";
+        } else {
+          // Wrong
+          errorMsg.style.display = "block";
+          passwordInput.value = "";
+          passwordInput.focus();
+          setTimeout(() => {
+            errorMsg.style.display = "none";
+          }, 3500);
+        }
+      });
+
+      // Enter key support
+      passwordInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          loginBtn.click();
+        }
+      });
+    </script>
+  </body>
+</html>

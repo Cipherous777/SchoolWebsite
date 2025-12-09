@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IIS Portal • Student Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/CSS/main.css" />
+  <link rel="stylesheet" href="/CSS/register.css" />
+  <link rel="stylesheet" href="/CSS/formStyle.css" />
+  
+  <style>
+    .code-digit { width: 48px; height: 48px; font-size: 24px; text-align: center; border: 2px solid #ddd; border-radius: 8px; }
+    .code-digit:focus { border-color: #667eea; box-shadow: 0 0 10px rgba(102,126,234,0.4); outline: none; }
+    .code-boxes { display: flex; gap: 12px; justify-content: center; margin: 20px 0; }
+    .error-message { color: #e53e3e; font-size: 14px; margin-top: 10px; display: none; }
+    .success-message { color: #38a169; font-size: 16px; font-weight: bold; margin-top: 10px; display: none; }
+    .name-display { 
+      font-size: 22px; 
+      font-weight: bold; 
+      padding: 16px; 
+      background: #edf2f7; 
+      border-radius: 10px; 
+      text-align: center;
+      transition: all 0.4s;
+    }
+    .loading { opacity: 0.6; pointer-events: none; }
+    select{
+      padding: 10px;
+      font-family: var(--Font--);
+    }
+  </style>
+</head>
+<body>
+  <header class="portal-header">
+    <a href="/register.portal" style="text-decoration: none">
+      <div class="logo">
+        <img src="/images/portal-logo.png" alt="IIS Portal Logo" />
+        <h1>IIS Portal</h1>
+      </div>
+    </a>
+    <button class="signup-btn">Sign-up</button>
+  </header>
+
+  <main>
+    <section class="role-selection">
+      <div class="container">
+        <h2 class="form-title">Student Login</h2>
+
+        <div class="form">
+          <form id="studentLoginForm">
+            <div id="rows">
+              <div class="column" style="width: 100%; max-width: 500px; margin: 0 auto;">
+
+                <div class="input">
+                  <label>Student Name</label>
+                  <div class="name-display" id="studentNameDisplay">
+                    Enter your code and grade to continue
+                  </div>
+                </div>
+
+                <div class="input">
+                  <label for="grade">Grade</label>
+                  <select id="grade" required>
+                    <option value="">Select Grade</option>
+                    <option value="9">Grade 9</option>
+                    <option value="10">Grade 10</option>
+                    <option value="11">Grade 11</option>
+                    <option value="12">Grade 12</option>
+                  </select>
+                </div>
+
+                <div style="text-align: center;">
+                  <label style="font-size: 18px; margin-bottom: 10px; display: block;">Registration Code</label>
+                  <div class="code-boxes">
+                    <input type="text" maxlength="1" class="code-digit" required />
+                    <input type="text" maxlength="1" class="code-digit" required />
+                    <input type="text" maxlength="1" class="code-digit" required />
+                    <input type="text" maxlength="1" class="code-digit" required />
+                  </div>
+
+                  <div class="error-message" id="errorMessage"></div>
+                  <div class="success-message" id="successMessage"></div>
+                </div>
+
+                <div class="button" style="margin-top: 30px; justify-content: center;">
+                  <a href="javascript:history.back()" class="btn-prev">Back</a>
+                  <button type="submit" id="submitBtn" disabled>Continue to Portal</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const codeDigits = document.querySelectorAll('.code-digit');
+    let currentStudent = null;
+
+    codeDigits.forEach((input, i, arr) => {
+      input.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        if (e.target.value && i < 3) arr[i + 1].focus();
+        if (getCode().length === 4 && document.getElementById('grade').value) verifyStudent();
+      });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && i > 0) arr[i - 1].focus();
+      });
+    });
+
+    document.getElementById('grade').addEventListener('change', () => {
+      if (getCode().length === 4) verifyStudent();
+    });
+
+    function getCode() {
+      return Array.from(codeDigits).map(i => i.value).join('');
+    }
+
+    async function verifyStudent() {
+      const code = getCode();
+      const grade = document.getElementById('grade').value;
+      if (code.length !== 4 || !grade) return;
+
+      setLoading(true);
+      hideMessages();
+
+      try {
+        const res = await fetch('/signin', {  // Change to '/signin' when ready
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `code=${code}&grade=${grade}`
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          currentStudent = data;
+          document.getElementById('studentNameDisplay').textContent = data.name;
+          document.getElementById('studentNameDisplay').style.background = '#c6f6d5';
+          showSuccess(`Welcome back, ${data.name}!`);
+          document.getElementById('submitBtn').disabled = false;
+        } else {
+          showError(data.error || "Invalid code or grade");
+          resetForm();
+        }
+      } catch (err) {
+        showError("Connection failed. Is the server running?");
+        resetForm();
+      } finally {
+        setLoading(false);
+      }
+    }
+
+document.getElementById('studentLoginForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!currentStudent) return showError("Please verify first");
+
+  window.location.href = `/portal.student?name=${encodeURIComponent(currentStudent.name)}&grade=${currentStudent.grade}&code=${currentStudent.code}`;
+});
+    function showError(msg) {
+      document.getElementById('errorMessage').textContent = msg;
+      document.getElementById('errorMessage').style.display = 'block';
+      document.getElementById('successMessage').style.display = 'none';
+    }
+    function showSuccess(msg) {
+      document.getElementById('successMessage').textContent = msg;
+      document.getElementById('successMessage').style.display = 'block';
+      document.getElementById('errorMessage').style.display = 'none';
+    }
+    function hideMessages() {
+      document.getElementById('errorMessage').style.display = 'none';
+      document.getElementById('successMessage').style.display = 'none';
+    }
+    function setLoading(yes) {
+      const btn = document.getElementById('submitBtn');
+      btn.textContent = yes ? 'Verifying...' : 'Continue to Portal';
+      btn.disabled = yes || !currentStudent;
+      btn.classList.toggle('loading', yes);
+    }
+    function resetForm() {
+      document.getElementById('studentNameDisplay').textContent = 'Enter your code and grade to continue';
+      document.getElementById('studentNameDisplay').style.background = '#edf2f7';
+      document.getElementById('submitBtn').disabled = true;
+      currentStudent = null;
+    }
+
+    // Auto-clear on input change
+    codeDigits.forEach(el => el.addEventListener('input', () => {
+      if (getCode().length < 4) resetForm();
+    }));
+  </script>
+</body>
+</html>

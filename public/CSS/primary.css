@@ -1,0 +1,266 @@
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--Font--);
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9fb;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  width: min(100%, 1200px);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+
+/* Main Content */
+.main {
+  padding-block: 3rem;
+}
+
+.section {
+  margin-bottom: 4rem;
+}
+
+.section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--Primary-Color--);
+  text-align: center;
+}
+
+.section p {
+  max-width: 800px;
+  margin-inline: auto;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Gallery */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.gallery-grid img {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-grid img:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Features */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.feature-card {
+  background: white;
+  padding: 1.75rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+  color: var(--Primary-Color--)
+}
+
+.feature-card p {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
+
+/* Button */
+.btn-wrapper {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.btn {
+  display: inline-block;
+  background-color: var(--Primary-Color--);
+  color: white;
+  padding: 0.75rem 1.75rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #00205b;
+  transform: translateY(-2px);
+}
+
+/* Footer */
+.footer {
+  background-color: var(--Primary-Color--);
+  color: white;
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: 4rem;
+}
+
+.footer p {
+  font-size: 0.95rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .hero-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-nav .nav-menu {
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .section h2 {
+    font-size: 1.75rem;
+  }
+
+  .hero-logo {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .school-name {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-menu {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.65rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+
+/* Primary Banner */
+.primary-banner {
+  background: linear-gradient(rgba(0, 48, 135, 0.9), rgba(0, 48, 135, 0.8)),
+              url('../Images/primary-banner-bg.jpg') center/cover no-repeat;
+  color: white;
+  text-align: center;
+  padding: 6rem 1rem;
+  margin-bottom: 3rem;
+}
+
+.banner-inner {
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.banner-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.banner-subtitle {
+  font-size: 1.35rem;
+  max-width: 700px;
+  margin-inline: auto;
+  opacity: 0.95;
+  line-height: 1.7;
+}
+
+/* Welcome Section Override */
+.welcome h2 {
+  color: var(--Primary-Color--);
+  font-size: 2.25rem;
+}
+
+.welcome p {
+  font-size: 1.15rem;
+  color: #444;
+}
+
+/* Add subtle accent to features */
+.features .feature-card:nth-child(1) { border-top: 4px solid #a8dadc; }
+.features .feature-card:nth-child(2) { border-top: 4px solid #f4a261; }
+.features .feature-card:nth-child(3) { border-top: 4px solid #2a9d8f; }
+.features .feature-card:nth-child(4) { border-top: 4px solid #e9c46a; }
+
+/* Responsive Banner */
+@media (max-width: 768px) {
+  .banner-title {
+    font-size: 2.4rem;
+  }
+
+  .banner-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .primary-banner {
+    padding: 5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-title {
+    font-size: 2rem;
+  }
+
+  .banner-subtitle {
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IIS Portal - Parent</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #f0f9ff, #dbeafe);
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+      color: white;
+      padding: 20px 5%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .header-content {
+      max-width: 1600px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+    .logo { width: 60px; height: 60px; background: white; color: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 28px; }
+    .title { font-size: 28px; font-weight: 700; }
+    .main { max-width: 1600px; margin: 30px auto; padding: 0 5%; }
+
+    .welcome { text-align: center; font-size: 28px; color: #1e40af; margin-bottom: 10px; }
+    .sub { text-align: center; color: #555; margin-bottom: 30px; }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+    .card-header {
+      background: #3b82f6;
+      color: white;
+      padding: 18px 25px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .card-body { padding: 30px; }
+
+    .student-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .info-box {
+      background: #f0f9ff;
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 5px solid #3b82f6;
+    }
+    .label { font-weight: 600; color: #1e40af; }
+    .value { font-size: 18px; margin-top: 6px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th {
+      background: #1e40af;
+      color: white;
+      padding: 16px;
+      text-align: left;
+    }
+    td { padding: 16px; border-bottom: 1px solid #eee; }
+    tr:hover { background: #f8faff; }
+
+    .status-paid { background: #dcfce7; color: #166534; padding: 8px 16px; border-radius: 8px; font-weight: bold; }
+    .status-pending { background: #fef3c7; color: #92400e; padding: 8px 16px; border-radius: 8px; font-weight: bold; }
+    .status-overdue { background: #fee2e2; color: #991b1b; padding: 8px 16px; border-radius: 8px; font-weight: bold; }
+
+    @media (max-width: 768px) {
+      .header-content { flex-direction: column; text-align: center; }
+      th, td { font-size: 14px; padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div style="display:flex; align-items:center; gap:15px;">
+        <div class="logo">IIS</div>
+        <h1 class="title">IIS Portal - Parent</h1>
+      </div>
+      <button style="background:white; color:#3b82f6; padding:10px 24px; border:none; border-radius:30px; font-weight:bold;">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <h2 class="welcome">Parent Dashboard</h2>
+    <p class="sub">Welcome, <strong>Ato Yusuf Mohammed</strong> • Monitor your child's progress & payments</p>
+
+    <div class="card">
+      <div class="card-header">Student Information</div>
+      <div class="card-body">
+        <div class="student-info">
+          <div class="info-box"><div class="label">Student Name</div><div class="value">Ahmad Yusuf Mohammed</div></div>
+          <div class="info-box"><div class="label">Student ID</div><div class="value">IIS-2024-089</div></div>
+          <div class="info-box"><div class="label">Grade</div><div class="value">Grade 12 - Section A</div></div>
+          <div class="info-box"><div class="label">Academic Year</div><div class="value">2024/2025</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Payment Status</div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr>
+              <th>Fee Type</th>
+              <th>Amount</th>
+              <th>Due Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Registration Fee</td>
+              <td>ETB 8,500</td>
+              <td>Sep 10, 2024</td>
+              <td><span class="status-paid">Paid</span></td>
+              <td><button style="background:#22c55e;color:white;padding:8px 16px;border:none;border-radius:8px;cursor:pointer;">Receipt</button></td>
+            </tr>
+            <tr>
+              <td>Tuition Fee - Semester 1</td>
+              <td>ETB 45,000</td>
+              <td>Oct 05, 2024</td>
+              <td><span class="status-paid">Paid</span></td>
+              <td><button style="background:#22c55e;color:white;padding:8px 16px;border:none;border-radius:8px;cursor:pointer;">Receipt</button></td>
+            </tr>
+            <tr>
+              <td>Tuition Fee - Semester 2</td>
+              <td>ETB 45,000</td>
+              <td>Mar 10, 2025</td>
+              <td><span class="status-pending">Pending</span></td>
+              <td><button style="background:#f59e0b;color:white;padding:8px 16px;border:none;border-radius:8px;cursor:pointer;">Pay Now</button></td>
+            </tr>
+            <tr>
+              <td>Lab & Library Fee</td>
+              <td>ETB 6,000</td>
+              <td>Feb 01, 2025</td>
+              <td><span class="status-overdue">Overdue</span></td>
+              <td><button style="background:#ef4444;color:white;padding:8px 16px;border:none;border-radius:8px;cursor:pointer;">Pay Now</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

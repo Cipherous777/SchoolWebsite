@@ -1,0 +1,14 @@
+{
+  "1001": { "name": "Mr. Gashaw", "subject": "Mathematics", "grades": ["9", "10", "11", "12"] },
+  "1002": { "name": "Ms. Stancy", "subject": "English", "grades": ["9", "10", "11", "12"] },
+  "1003": { "name": "Mr. Desalegn", "subject": "Physics", "grades": ["11", "12", "9", "10"] },
+  "1004": { "name": "Ms. Elias", "subject": "Chemistry", "grades": ["11", "12" , "9", "10"] },
+  "1005": { "name": "Mr. Sisay", "subject": "Biology", "grades": ["11", "12", "9", "10"] },
+  "1006":{"name": "Mr.Gebeyaw", "subject":"History, Citizenship", "grades":["9","10","11"]},
+  "1007":{"name": "Mr.Bereket" , "subject": "Economics, Agriculture" ,"grades":["9","10","11","12"]},
+  "1008":{"name":"Mr.Nahom" , "subject": "ICT", "grades":["9","10","11","12"]},
+  "1009":{"name":"Ms.Yeshwareg" , "subject":"Amharic", "grades":["9","10"]},
+  "1010":{"name": "Mr.Solomon" , "subject":"Geography", "grades":["9", "10", "11"]}
+
+}
+

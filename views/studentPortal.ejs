@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IIS Portal • <%= studentName %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    :root { 
+      --primary: #1e40af; 
+      --secondary: #667eea; 
+      --white: #ffffff; 
+      --light: #f8fafc; 
+      --gray: #e2e8f0; 
+      --success: #10b981; 
+      --danger: #ef4444; 
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: linear-gradient(135deg, #f0f4f8 0%, #e0e7ff 100%); 
+      min-height: 100vh;
+      line-height: 1.6;
+      padding-bottom: 80px; /* Space for bottom nav */
+    }
+
+    /* IMPROVED RESPONSIVE HEADER */
+    .portal-header {
+      background: var(--white);
+      padding: 16px 5%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .logo { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      text-decoration: none; 
+      flex-shrink: 0;
+    }
+    
+    .logo img { 
+      width: 50px; 
+      height: 50px; 
+      border-radius: 50%; 
+      border: 3px solid var(--primary); 
+      object-fit: cover; 
+    }
+    
+    .logo h1 { 
+      color: var(--primary); 
+      font-family: 'Playfair Display', serif; 
+      font-size: clamp(20px, 5vw, 28px); 
+      margin: 0; 
+    }
+    
+    .welcome-text { 
+      font-size: clamp(16px, 4vw, 20px); 
+      color: var(--primary); 
+      font-weight: 600; 
+      text-align: right;
+      flex-shrink: 0;
+    }
+    
+    .welcome-text small { 
+      display: block; 
+      font-size: clamp(12px, 3vw, 15px); 
+      color: #64748b; 
+      margin-top: 4px; 
+    }
+
+    /* RESPONSIVE CONTAINER */
+    .container { 
+      max-width: 1400px; 
+      margin: 20px auto; 
+      padding: 15px;
+      display: grid; 
+      grid-template-columns: minmax(250px, 300px) 1fr; 
+      gap: 20px; 
+    }
+
+    /* RESPONSIVE SIDEBAR */
+    .sidebar { 
+      background: var(--white); 
+      border-radius: 16px; 
+      padding: 20px 15px; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+      position: sticky; 
+      top: 90px; 
+      height: fit-content;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+    
+    .nav-item { 
+      padding: 16px 15px; 
+      margin: 8px 0; 
+      border-radius: 12px; 
+      cursor: pointer; 
+      font-weight: 600; 
+      font-size: clamp(15px, 2vw, 17px); 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      transition: all 0.3s; 
+    }
+    
+    .nav-item:hover { 
+      background: #f1f5f9; 
+      transform: translateX(5px); 
+    }
+    
+    .nav-item.active { 
+      background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+      color: white; 
+      box-shadow: 0 6px 20px rgba(30,64,175,0.3); 
+    }
+
+    /* RESPONSIVE CONTENT */
+    .content { 
+      display: none; 
+      background: var(--white); 
+      border-radius: 16px; 
+      padding: clamp(20px, 4vw, 40px); 
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1); 
+      animation: fadeIn 0.5s; 
+    }
+    
+    .content.active { 
+      display: block; 
+    }
+    
+    @keyframes fadeIn { 
+      from { opacity: 0; transform: translateY(20px); } 
+      to { opacity: 1; transform: none; } 
+    }
+
+    h2 { 
+      font-family: 'Playfair Display', serif; 
+      color: var(--primary); 
+      font-size: clamp(1.8rem, 5vw, 2.4rem); 
+      text-align: center; 
+      margin-bottom: 25px; 
+    }
+
+    /* RESPONSIVE PROFILE GRID */
+    .profile-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+      gap: 15px; 
+    }
+    
+    .info-item { 
+      background: linear-gradient(135deg, #f8fafc, #e0e7ff); 
+      padding: clamp(18px, 3vw, 25px); 
+      border-radius: 12px; 
+      text-align: center; 
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08); 
+      transition: 0.3s; 
+    }
+    
+    .info-item:hover { 
+      transform: translateY(-5px); 
+    }
+    
+    .label { 
+      font-weight: 600; 
+      color: #64748b; 
+      font-size: clamp(13px, 2vw, 15px); 
+    }
+    
+    .value { 
+      margin-top: 8px; 
+      font-size: clamp(1.2rem, 3vw, 1.5rem); 
+      font-weight: 700; 
+      color: var(--primary); 
+    }
+
+    /* MOBILE-FRIENDLY TABLE */
+    .table-container { 
+      overflow-x: auto; 
+      border-radius: 12px; 
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1); 
+      margin: 0 -10px;
+      padding: 0 10px;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    table { 
+      width: 100%; 
+      min-width: 700px; 
+      border-collapse: collapse; 
+    }
+    
+    th { 
+      background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+      color: white; 
+      padding: clamp(12px, 2vw, 16px); 
+      text-align: center; 
+      font-size: clamp(12px, 1.8vw, 14px);
+      white-space: nowrap;
+    }
+    
+    td { 
+      padding: clamp(12px, 2vw, 16px); 
+      text-align: center; 
+      background: #fafbff; 
+      border-bottom: 1px solid var(--gray); 
+      font-size: clamp(12px, 1.8vw, 14px);
+    }
+    
+    .subject { 
+      text-align: left !important; 
+      font-weight: 600; 
+      padding-left: clamp(12px, 2vw, 20px); 
+    }
+
+    /* MOBILE TABLE STYLES */
+    .mobile-grade-card {
+      display: none;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border-left: 4px solid var(--primary);
+    }
+
+    .mobile-grade-header {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--gray);
+    }
+
+    .mobile-grade-scores {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      text-align: center;
+    }
+
+    .score-item {
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .score-label {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-bottom: 5px;
+    }
+
+    .score-value {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+
+    .total-score {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    /* RESPONSIVE RESOURCES SECTION */
+    .resources-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+      gap: 20px; 
+      margin-top: 20px; 
+    }
+    
+    .resource-card { 
+      background: white; 
+      padding: 20px; 
+      border-radius: 12px; 
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08); 
+      transition: all 0.3s ease; 
+      border-left: 4px solid var(--primary);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .resource-card:hover { 
+      transform: translateY(-5px); 
+      box-shadow: 0 10px 25px rgba(30,64,175,0.15); 
+    }
+    
+    .resource-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    
+    .resource-icon { 
+      font-size: 1.5rem; 
+      color: var(--primary); 
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    
+    .resource-title {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+    
+    .resource-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 15px;
+      border-top: 1px solid var(--gray);
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+    
+    .resource-size {
+      font-weight: 600;
+    }
+    
+    .resource-link {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      text-align: center;
+    }
+    
+    .resource-link:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+    
+    .resource-note {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 6px;
+      padding: 10px 15px;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #856404;
+    }
+    
+    .telegram-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #0088cc;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+    
+    .telegram-link:hover {
+      background: #0077b5;
+      transform: translateY(-2px);
+    }
+
+    /* BOTTOM NAVIGATION BAR - LIKE SOCIAL MEDIA APPS */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-top: 1px solid var(--gray);
+      padding: 12px 20px;
+      z-index: 1000;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    }
+
+    .bottom-nav-items {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      min-width: 60px;
+    }
+
+    .nav-tab i {
+      font-size: 1.3rem;
+      color: #64748b;
+      transition: all 0.3s ease;
+    }
+
+    .nav-tab span {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #64748b;
+      transition: all 0.3s ease;
+    }
+
+    .nav-tab.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .nav-tab.active i,
+    .nav-tab.active span {
+      color: white;
+    }
+
+    .nav-tab:active {
+      transform: scale(0.95);
+    }
+
+    /* RESPONSIVE BREAKPOINTS */
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 280px 1fr;
+        gap: 15px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .portal-header {
+        padding: 12px 4%;
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+      
+      .logo {
+        justify-content: center;
+      }
+      
+      .welcome-text {
+        text-align: center;
+      }
+      
+      .container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin: 15px auto;
+        padding: 10px;
+        padding-bottom: 20px;
+      }
+      
+      .sidebar {
+        display: none;
+      }
+      
+      .bottom-nav {
+        display: block;
+      }
+      
+      .content {
+        padding: 20px 15px;
+      }
+
+      /* Show mobile table cards and hide desktop table */
+      .desktop-table {
+        display: none;
+      }
+      
+      .mobile-grade-card {
+        display: block;
+      }
+      
+      .resources-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .portal-header {
+        padding: 10px 3%;
+      }
+      
+      .logo img {
+        width: 45px;
+        height: 45px;
+      }
+      
+      .container {
+        margin: 10px auto;
+        padding: 8px;
+        padding-bottom: 15px;
+      }
+      
+      .profile-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      
+      .resources-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .table-container {
+        margin: 0 -5px;
+        padding: 0 5px;
+      }
+      
+      .bottom-nav {
+        padding: 10px 15px;
+      }
+      
+      .nav-tab {
+        padding: 6px 12px;
+        min-width: 50px;
+      }
+      
+      .nav-tab i {
+        font-size: 1.1rem;
+      }
+      
+      .nav-tab span {
+        font-size: 0.7rem;
+      }
+
+      .mobile-grade-scores {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .resource-card {
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .content {
+        padding: 15px 12px;
+      }
+      
+      .info-item {
+        padding: 15px;
+      }
+      
+      .mobile-grade-card {
+        padding: 15px;
+      }
+    }
+
+    /* SCROLLBAR STYLING */
+    .sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .sidebar::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+    
+    .sidebar::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- RESPONSIVE HEADER -->
+  <header class="portal-header">
+    <a href="/" class="logo">
+      <img src="/images/portal-logo.png" alt="IIS Logo">
+      <h1>IIS Portal</h1>
+    </a>
+    
+    <div class="welcome-text">
+      Welcome, <%= studentName %>
+      <small>Grade <%= studentGrade %> • Code: <%= studentCode %></small>
+    </div>
+  </header>
+
+  <div class="container">
+    <nav class="sidebar" id="sidebar">
+      <div class="nav-item active" onclick="show('profile')">
+        <i class="fas fa-user"></i> My Profile
+      </div>
+      <div class="nav-item" onclick="show('grades')">
+        <i class="fas fa-chart-bar"></i> My Grades
+      </div>
+      <div class="nav-item" onclick="show('resources')">
+        <i class="fas fa-book"></i> Resources
+      </div>
+    </nav>
+
+    <main>
+      <div id="profile" class="content active">
+        <h2>Student Profile</h2>
+        <div class="profile-grid">
+          <div class="info-item">
+            <div class="label">Full Name</div>
+            <div class="value"><%= studentName %></div>
+          </div>
+          <div class="info-item">
+            <div class="label">Student Code</div>
+            <div class="value"><%= studentCode %></div>
+          </div>
+          <div class="info-item">
+            <div class="label">Current Grade</div>
+            <div class="value">Grade <%= studentGrade %></div>
+          </div>
+          <div class="info-item">
+            <div class="label">Academic Year</div>
+            <div class="value">2024 – 2025</div>
+          </div>
+          <div class="info-item">
+            <div class="label">Status</div>
+            <div class="value" style="color:var(--success)">Active Student</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="grades" class="content">
+        <h2>My Grades • Grade <%= studentGrade %></h2>
+        <div class="table-container">
+          <!-- Desktop Table -->
+          <table class="desktop-table">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Test 1<br><small>/10</small></th>
+                <th>Test 2<br><small>/10</small></th>
+                <th>Test 3<br><small>/10</small></th>
+                <th>Mid Exam<br><small>/20</small></th>
+                <th>Final Exam<br><small>/50</small></th>
+                <th>Total<br><small>/100</small></th>
+              </tr>
+            </thead>
+            <tbody id="gradesTable">
+              <tr>
+                <td colspan="7">Loading grades...</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Mobile Grade Cards -->
+          <div class="mobile-grades" id="mobileGrades">
+            <div class="mobile-grade-card">
+              <div class="mobile-grade-header">Loading grades...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="resources" class="content">
+        <h2>Learning Resources</h2>
+        <p style="text-align: center; margin-bottom: 25px; color: #64748b;">
+          Access all your study materials and textbooks here
+        </p>
+        
+        <div class="resources-grid">
+          <!-- Grade 9 Resources -->
+          <div class="resource-card">
+            <div class="resource-header">
+              <i class="fas fa-calculator resource-icon"></i>
+              <div class="resource-title">Agriculture questions</div>
+            </div>
+            <div class="resource-meta">
+              <span class="resource-size">66.3 MB</span>
+              <span>PDF</span>
+            </div>
+            <a href="/pdf/Agriculture Worksheet One for Grade 11.pdf" class="resource-link">
+          </i> Open PDF
+            </a>
+          </div>
+          
+          <div class="resource-card">
+            <div class="resource-header">
+              <i class="fas fa-dna resource-icon"></i>
+              <div class="resource-title">Biology 2016 entrance</div>
+            </div>
+            <div class="resource-meta">
+              <span class="resource-size">590.6 MB</span>
+              <span>PDF</span>
+            </div>
+            <a href="/pdf/Biology 2016 Entrance with answer (@Entrance_Zone).pdf" class="telegram-link" target="_blank">
+              Open PDF
+            </a>
+          </div>
+          
+          <div class="resource-card">
+            <div class="resource-header">
+              <i class="fas fa-flask resource-icon"></i>
+              <div class="resource-title">Extreme Chemistry Grade 10</div>
+            </div>
+            <div class="resource-meta">
+              <span class="resource-size">56.7 MB</span>
+              <span>PDF</span>
+            </div>
+            <a href="/pdf/Extreme Chemistry Grade 10.pdf" class="resource-link">
+            Open PDF
+            </a>
+          </div>
+          
+          <div class="resource-card">
+            <div class="resource-header">
+              <i class="fas fa-landmark resource-icon"></i>
+              <div class="resource-title">Grade 9 History Extreme Series</div>
+            </div>
+            <div class="resource-meta">
+              <span class="resource-size">58.6 MB</span>
+              <span>PDF</span>
+            </div>
+            <a href="/pdf/Grade 9 History extreme series's.pdf" class="resource-link">
+             Open PDF
+            </a>
+          </div>
+          
+          <!-- Grade 11 Resources -->
+      
+          <div class="resource-card">
+            <div class="resource-header">
+              <i class="fas fa-chart-line resource-icon"></i>
+              <div class="resource-title">Extreme Economics</div>
+            </div>
+            <div class="resource-meta">
+              <span class="resource-size">121.1 MB</span>
+              <span>PDF</span>
+            </div>
+            <a href="/pdf/Extrem Economics.  (copy).pdf" class="resource-link">
+             Open PDF
+            </a>
+          </div>
+          
+          <!-- Physics Resources -->
+          <div class="resource-card">
+            <div class="resource-header">
+              <i class="fas fa-atom resource-icon"></i>
+              <div class="resource-title">Extreme Physics Grade 9</div>
+            </div>
+            <div class="resource-meta">
+              <span class="resource-size">18.2 MB</span>
+              <span>PDF</span>
+            </div>
+            <a href="/pdf/Extreme Physics Grade 9 New Curriculum.pdf" class="resource-link">
+               Open PDF
+            </a>
+          </div>
+          
+          <div class="resource-card">
+            <div class="resource-header">
+              <i class="fas fa-atom resource-icon"></i>
+              <div class="resource-title">Extreme Physics Grade 10</div>
+            </div>
+            <div class="resource-meta">
+              <span class="resource-size">14.0 MB</span>
+              <span>PDF</span>
+            </div>
+            <a href="/pdf/Extreme Physics Grade 10 New Curriculum.pdf" class="resource-link">
+             Open PDF
+            </a>
+          </div>
+          
+          <div class="resource-card">
+            <div class="resource-header">
+              <i class="fas fa-atom resource-icon"></i>
+              <div class="resource-title">Extreme Physics Grade 11</div>
+            </div>
+            <div class="resource-meta">
+              <span class="resource-size">218.1 MB</span>
+              <span>PDF</span>
+            </div>
+            <a href="Extreme Physics Grade 11.pdf" class="resource-link">
+            Open PDF
+            </a>
+          </div>
+          
+          <div class="resource-card">
+            <div class="resource-header">
+              <i class="fas fa-atom resource-icon"></i>
+              <div class="resource-title">Extreme Physics Grade 12</div>
+            </div>
+            <div class="resource-meta">
+              <span class="resource-size">291.3 MB</span>
+              <span>PDF</span>
+            </div>
+            <a href="/pdf/G12 Physics extreme series book.pdf" class="resource-link">
+              Open PDF
+            </a>
+          </div>
+          
+          <!-- Additional Resources -->
+          <div class="resource-card">
+            <div class="resource-header">
+              <i class="fas fa-dna resource-icon"></i>
+              <div class="resource-title">Extreme Biology Grade 11 & 12</div>
+            </div>
+            <div class="resource-meta">
+              <span class="resource-size">231.1 MB</span>
+              <span>PDF</span>
+            </div>
+            <a href="/pdf/Extreme_Biology_Grade_11&12_New_Curriculum_Telegram_@extremeseries.pdf" class="resource-link">
+              Open PDF
+            </a>
+          </div>
+          
+          <div class="resource-card">
+            <div class="resource-header">
+              <i class="fas fa-flask resource-icon"></i>
+              <div class="resource-title">Extreme Chemistry Grade 11 & 12</div>
+            </div>
+            <div class="resource-meta">
+              <span class="resource-size">152.1 MB</span>
+              <span>PDF</span>
+            </div>
+            <a href="/pdf/Extreme_Chemistry_Grade_11&12_New_Curriculum_Telegram@extremeseries.pdf" class="resource-link">
+              Open PDF
+            </a>
+          </div>
+          
+        
+       
+        </div>
+        
+     
+      </div>
+    </main>
+  </div>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="bottom-nav">
+    <div class="bottom-nav-items">
+      <button class="nav-tab active" onclick="show('profile')">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </button>
+      <button class="nav-tab" onclick="show('grades')">
+        <i class="fas fa-chart-bar"></i>
+        <span>Grades</span>
+      </button>
+      <button class="nav-tab" onclick="show('resources')">
+        <i class="fas fa-book"></i>
+        <span>Resources</span>
+      </button>
+    </div>
+  </nav>
+
+<script>
+  function show(id) {
+    // Update content visibility
+    document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    
+    // Update sidebar navigation
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelector(`[onclick="show('${id}')"]`).classList.add('active');
+    
+    // Update bottom navigation
+    document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      if (tab.onclick && tab.onclick.toString().includes(id)) {
+        tab.classList.add('active');
+      }
+    });
+    
+    if (id === 'grades') loadGrades();
+  }
+
+  async function loadGrades() {
+    try {
+      const res = await fetch(`/get-student-grades?code=<%= studentCode %>`);
+      const data = await res.json();
+      
+      console.log("Full response from server:", data);
+      console.log("Grades data:", data.grades);
+
+      const tbody = document.getElementById('gradesTable');
+      const mobileGrades = document.getElementById('mobileGrades');
+      
+      // Clear loading messages
+      tbody.innerHTML = '';
+      mobileGrades.innerHTML = '';
+
+      // Check if we have grades data
+      if (!data.grades || Object.keys(data.grades).length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7">No grades available yet</td></tr>';
+        mobileGrades.innerHTML = '<div class="mobile-grade-card"><div class="mobile-grade-header">No grades available yet</div></div>';
+        return;
+      }
+
+      // Process grades data
+      Object.keys(data.grades).forEach(subject => {
+        const gradeData = data.grades[subject];
+        console.log(`Processing ${subject}:`, gradeData);
+        
+        // Safely get values with fallbacks
+        const t1 = gradeData.t1 || gradeData.test1 || gradeData.Test1 || '-';
+        const t2 = gradeData.t2 || gradeData.test2 || gradeData.Test2 || '-';
+        const t3 = gradeData.t3 || gradeData.test3 || gradeData.Test3 || '-';
+        const mid = gradeData.mid || gradeData.midExam || gradeData.MidExam || '-';
+        const final = gradeData.final || gradeData.finalExam || gradeData.FinalExam || '-';
+        
+        // Calculate total safely
+        const total = (
+          (parseInt(t1) || 0) + 
+          (parseInt(t2) || 0) + 
+          (parseInt(t3) || 0) + 
+          (parseInt(mid) || 0) + 
+          (parseInt(final) || 0)
+        );
+        
+        console.log(`Calculated total for ${subject}:`, total);
+
+        // Desktop table row
+        tbody.innerHTML += `
+          <tr>
+            <td class="subject">${subject}</td>
+            <td>${t1}</td>
+            <td>${t2}</td>
+            <td>${t3}</td>
+            <td>${mid}</td>
+            <td>${final}</td>
+            <td><strong>${total}</strong></td>
+          </tr>`;
+
+        // Mobile grade card
+        mobileGrades.innerHTML += `
+          <div class="mobile-grade-card">
+            <div class="mobile-grade-header">${subject}</div>
+            <div class="mobile-grade-scores">
+              <div class="score-item">
+                <div class="score-label">Test 1</div>
+                <div class="score-value">${t1}</div>
+              </div>
+              <div class="score-item">
+                <div class="score-label">Test 2</div>
+                <div class="score-value">${t2}</div>
+              </div>
+              <div class="score-item">
+                <div class="score-label">Test 3</div>
+                <div class="score-value">${t3}</div>
+              </div>
+              <div class="score-item">
+                <div class="score-label">Mid Exam</div>
+                <div class="score-value">${mid}</div>
+              </div>
+              <div class="score-item">
+                <div class="score-label">Final Exam</div>
+                <div class="score-value">${final}</div>
+              </div>
+              <div class="total-score">
+                Total: ${total}/100
+              </div>
+            </div>
+          </div>`;
+      });
+
+    } catch (err) {
+      console.error("Error loading grades:", err);
+      const tbody = document.getElementById('gradesTable');
+      const mobileGrades = document.getElementById('mobileGrades');
+      
+      tbody.innerHTML = '<tr><td colspan="7">Error loading grades. Please try again.</td></tr>';
+      mobileGrades.innerHTML = '<div class="mobile-grade-card"><div class="mobile-grade-header">Error loading grades</div><div class="mobile-grade-scores"><div class="total-score">Please try again</div></div></div>';
+    }
+  }
+
+  // Handle window resize to show/hide appropriate table
+  function handleResize() {
+    const isMobile = window.innerWidth <= 768;
+    const desktopTables = document.querySelectorAll('.desktop-table');
+    const mobileGrades = document.querySelectorAll('.mobile-grade-card');
+    
+    desktopTables.forEach(table => {
+      table.style.display = isMobile ? 'none' : 'table';
+    });
+    
+    mobileGrades.forEach(card => {
+      card.style.display = isMobile ? 'block' : 'none';
+    });
+  }
+
+  // Initialize when page loads
+  window.addEventListener('load', () => {
+    loadGrades();
+    handleResize();
+    setInterval(loadGrades, 30000); // Refresh every 30 seconds
+    
+    // Also load grades when switching to grades tab
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden && document.getElementById('grades').classList.contains('active')) {
+        loadGrades();
+      }
+    });
+  });
+
+  window.addEventListener('resize', handleResize);
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IIS – Gallery</title>
+    <link rel="stylesheet" href="/CSS/main.css" />
+    <link rel="stylesheet" href="/CSS/gallery.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <section class="hero" style="height: 0vh; min-height: 0;">
+      <div class="container">
+        <!-- LOGO + NAV -->
+           <header class="header">
+        <nav class="navbar">
+          <a href="/" style="text-decoration: none;">
+            <div class="nav-brand" style="display: flex; gap: 7px; align-items: center">
+              <img src="/Images/logo2.png" alt="IIS Logo" class="logo-img" />
+              <span class="school-name">Indian International School</span>
+            </div>
+          </a>
+          
+          <!-- Hamburger Menu Button -->
+          <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <ul class="nav-menu">
+            <li><a href="/" class="nav-link">Home</a></li>
+            <li><a href="/about" class="nav-link">About</a></li>
+            <li><a href="news" class="nav-link">News</a></li>
+            <li><a href="/gallery" class="nav-link active">Gallery</a></li>
+            <li><a href="/contact" class="nav-link">Contact</a></li>
+            <li><a href="/register" class="nav-link">Register</a></li>
+          </ul>
+        </nav>
+      </header>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main">
+      <div class="container">
+        <h1 class="page-title">Gallery</h1>
+
+        <!-- Section: School Compounds -->
+        <section class="gallery-section">
+          <h2 class="section-title">The school compounds</h2>
+          <div class="gallery-grid">
+            <img src="/Images/schoolcpd.png" alt="School building" />
+            <img src="/Images/schoolcpd2.png" alt="Playground" />
+          </div>
+          <div class="btn-wrapper">
+            <a href="#" class="btn-see-more">See more</a>
+          </div>
+        </section>
+
+        <!-- Section: Indian Embassy -->
+        <section class="gallery-section">
+          <h2 class="section-title">Indian Embassy</h2>
+          <div class="gallery-grid">
+            <img src="/Images/embassy1.png" alt="Embassy visit 1" />
+            <img src="/Images/embassy2.png" alt="Embassy visit 2" />
+
+            <img src="/Images/embassy5.png" alt="Embassy visit 5" />
+          </div>
+          <div class="btn-wrapper">
+            <a href="#" class="btn-see-more">See more</a>
+          </div>
+        </section>
+
+        <!-- Section: School Trip -->
+        <section class="gallery-section">
+          <h2 class="section-title">School trip</h2>
+          <div class="gallery-grid">
+            <img src="/Images/trip1.png" alt="Trip group photo" />
+            <img src="/Images/trip2.png" alt="Historical carriage" />
+            <img src="/Images/trip3.png" alt="Students exploring" />
+            <img src="/Images/trip4.png" alt="Outdoor activity" />
+          </div>
+          <div class="btn-wrapper">
+            <a href="#" class="btn-see-more">See more</a>
+          </div>
+        </section>
+      </div>
+    </main>
+     <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <img src="/Images/logo.png" alt="IIS Logo" class="footer-logo" />
+          <form class="footer-signup">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              class="email-input"
+            />
+            <button type="submit" class="btn btn-arrow">Submit</button>
+          </form>
+        </div>
+        <p class="footer-copy">Copyright © 2025 IIS. All Rights Reserved.</p>
+      </div>
+    </footer>
+  </body>
+   <script>
+       // Hamburger Menu Toggle
+      const hamburger = document.querySelector('.hamburger');
+      const navMenu = document.querySelector('.nav-menu');
+
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
+
+      // Close menu when clicking on a link
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          navMenu.classList.remove('active');
+        });
+      });
+  </script>
+</html>

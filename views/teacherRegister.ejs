@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IIS Portal • Register</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/CSS/main.css" />
+    <link rel="stylesheet" href="/CSS/register.css" />
+    <link rel="stylesheet" href="/CSS/formStyle.css" />
+  </head>
+  <body>
+    <header class="portal-header">
+      <a href="/register.portal" style="text-decoration: none">
+        <div class="logo">
+          <img src="/Images/portal-logo.png" alt="IIS Portal Logo" />
+          <h1>IIS Portal</h1>
+        </div>
+      </a>
+      <a href="/login">
+        <button class="signup-btn">Log-in</button>
+      </a>
+    </header>
+
+    <main>
+      <section class="role-selection">
+        <div class="container">
+          <h2 class="form-title">Register</h2>
+          <p class="form-subtitle">Fill these forms carefully.</p>
+
+          <div class="form">
+            <form
+              action="/register.portal/submit"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              <div id="rows" style="margin-top: 0">
+                <!-- LEFT COLUMN -->
+                <div class="column">
+                  <div class="input">
+                    <label>Full name</label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      placeholder="Full name"
+                      required
+                    />
+                  </div>
+                  <div class="input">
+                    <label>Phone-no</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Phone number"
+                      required
+                    />
+                  </div>
+                  <div class="input">
+                    <label>Upload your resume / CV</label>
+                    <input type="file" name="resume" />
+                  </div>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="column">
+                  <div class="input">
+                    <label>E-mail</label>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="E-mail"
+                      required
+                    />
+                  </div>
+                  <div class="input">
+                    <label>Cover letter</label>
+                    <textarea
+                      name="coverLetter"
+                      placeholder="Write a precise cover letter"
+                      required
+                    ></textarea>
+                  </div>
+
+                  <div class="button">
+                    <a href="javascript:history.back()" class="btn-prev"
+                      >Previous</a
+                    >
+                    <button type="submit">Next</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

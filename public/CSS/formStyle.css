@@ -1,0 +1,237 @@
+
+
+.form form {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+#rows {
+  display: flex;
+  justify-content: space-between;
+  gap: 60px;                   
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  flex: 1;
+  min-width: 280px;
+}
+
+
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input label {
+  color: var(--Primary-Color--);
+  font-size: 1.35rem;
+  font-weight: 600;
+  font-family: var(--Font--);
+  letter-spacing: 0.3px;
+}
+
+.input input, .input textarea {
+  padding: 16px 18px;
+  border: 2.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-family: var(--Font--);
+  background-color: #fafafa;
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+textarea{
+    width: 377px;
+    height: 227px;
+
+}
+
+textarea:focus{
+  outline: none;
+}
+
+.input input:focus {
+  outline: none;
+  border-color: var(--Primary-Color--);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  transform: translateY(-1px);
+}
+
+.input input[type="file"] {
+  padding: 14px 16px;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  border-style: dashed;
+  color: #555;
+  font-size: 1rem;
+}
+
+.input input[type="file"]::file-selector-button {
+  background: var(--Primary-Color--);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: 0.2s;
+}
+
+.input input[type="file"]:hover::file-selector-button {
+  background: #2563eb;
+  transform: scale(1.02);
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.button button {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  font-family: var(--Font--);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  min-width: 110px;
+}
+
+.button button:first-child {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 2px solid #e2e8f0;
+}
+
+.button button:first-child:hover {
+  background-color: #e2e8f0;
+  transform: translateY(-1px);
+}
+
+.button button:last-child {
+  background: linear-gradient(135deg, var(--Primary-Color--), #2563eb);
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.button button:last-child:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+
+@media (max-width: 768px) {
+  #rows {
+    flex-direction: column;
+    gap: 32px;
+  }
+  .button {
+    justify-content: center;
+  }
+  .input input {
+    padding: 14px 16px;
+  }
+}
+
+
+.code-input-wrapper {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.code-label {
+  margin-bottom: 1rem;
+  font-family: var(--Font--);
+  font-weight: 400;
+  font-size: 1rem;
+  color: #555;
+}
+
+.code-boxes {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;           
+  margin-bottom: 2rem;
+}
+
+.code-digit {
+  width: 61px;
+  height: 61px;
+  border: 2px solid var(--Primary-Color--);
+  border-radius: 50%;      
+  font-family: var(--Font--);
+  font-weight: 600;
+  font-size: 1.75rem;
+  text-align: center;
+  color: #1a1a1a;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+/* Hover / focus state */
+.code-digit:focus {
+  border-color:var(--Primary-Color--);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.code-digit:not(:empty) {
+  border-color: var(--Primary-Color--)
+}
+
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-prev,
+.btn-next {
+  padding: 0.75rem 2rem;
+  font-family: var(--Font--);
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-prev {
+  background: #e0e0e0;
+  color: #555;
+  text-decoration: none;
+}
+
+.btn-prev:hover { background: #d0d0d0; }
+
+.btn-next {
+  background: var(--Primary-Color--);
+  color: #fff;
+}
+
+.btn-next:hover { background: var(--Primary-Color--) }
+
+
+@media (max-width: 480px) {
+  .code-digit { width: 48px; height: 48px; font-size: 1.5rem; }
+  .code-boxes { gap: 0.5rem; }
+}

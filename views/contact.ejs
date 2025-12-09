@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | IIS</title>
+    <link rel="stylesheet" href="/CSS/main.css" />
+    <link rel="stylesheet" href="/CSS/contact.css" />
+  </head>
+  <body>
+    <!-- HEADER SECTION -->
+    <header class="header">
+      <nav class="navbar">
+        <a href="/" style="text-decoration: none;">
+          <div class="nav-brand" style="display: flex; gap: 7px; align-items: center">
+            <img src="/Images/logo2.png" alt="IIS Logo" class="logo-img" />
+            <span class="school-name">Indian International School</span>
+          </div>
+        </a>
+        
+        <!-- Hamburger Menu Button -->
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <ul class="nav-menu">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="/about" class="nav-link">About</a></li>
+          <li><a href="news" class="nav-link">News</a></li>
+          <li><a href="/gallery" class="nav-link">Gallery</a></li>
+          <li><a href="/contact" class="nav-link active">Contact</a></li>
+          <li><a href="/register" class="nav-link">Register</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- CONTACT SECTION -->
+    <section class="contact">
+      <div class="container">
+        <h2 class="section-title">Contact Us</h2>
+
+       
+
+          <!-- RIGHT: INFO -->
+          <div class="contact-info">
+            <div class="info-block">
+              <h3>📍 Visit us</h3>
+              <p>Near Medaniyalem Church, Kehena, Addis Ababa, Ethiopia</p>
+            </div>
+
+            <div class="info-block">
+              <h3>📞 Talk to us</h3>
+              <ul class="phone-list">
+                <li>+251 911 881775</li>
+                <li>+251 905 698437</li>
+                <li>+251 118 591435</li>
+              </ul>
+              <p class="email">info@indianintschool.com</p>
+            </div>
+
+            <div class="info-block">
+              <h3>🌐 Follow us</h3>
+              <div class="social-icons">
+                <a
+                  href="https://web.facebook.com/people/Indian-International-School/100064137485319/#"
+                  aria-label="Facebook"
+                >
+                  <img src="/Images/facebook.png" alt="Facebook" />
+                </a>
+                <a
+                  href="https://t.me/IndianIntSchoolEthiopia"
+                  aria-label="Telegram"
+                >
+                  <img src="/Images/telegram.png" alt="Telegram" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer" style="display: flex; justify-content: center; align-items: center;">
+      <div class="container">
+        <div class="footer-content" style="display: flex; justify-content: center; align-items: center;">
+          <img src="/Images/logo.png" alt="IIS Logo" class="footer-logo" />
+        </div>
+        <p class="footer-copy">Copyright © 2025 IIS. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Hamburger Menu Toggle
+      const hamburger = document.querySelector('.hamburger');
+      const navMenu = document.querySelector('.nav-menu');
+
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
+
+      // Close menu when clicking on a link
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          navMenu.classList.remove('active');
+        });
+      });
+    </script>
+  </body>
+</html>
+<style>
+  .contact-info {
+    flex: 1;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: center;
+    /* align-items: center; */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+</style>

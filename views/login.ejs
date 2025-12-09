@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="/CSS/main.css">
+  <title>IIS Portal • Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--Font--);
+      background: var(--White--);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: var(--Primary-Color--);
+    }
+    .container {
+      max-width: 900px;
+      width: 100%;
+    }
+  
+    /* REDESIGNED HEADER */
+    .portal-header {
+      background: var(--White--);
+      color: var(--Primary-Color--);
+      padding: 25px 40px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      border-radius: 0 0 20px 20px;
+    }
+
+    .portal-header .logo {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .portal-header .logo img {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.3);
+      padding: 3px;
+      background: white;
+    }
+
+    .portal-header .logo h1 {
+      color: var(--Primary-Color--);
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .header-info {
+      text-align: right;
+      color: white;
+    }
+
+    .header-info .admin-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .header-info .panel-type {
+      font-size: 1rem;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    .header-info .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-top: 5px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Rest of your existing styles */
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      padding-top: 150px;
+    }
+    .role-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      transition: all 0.4s ease;
+      cursor: pointer;
+      border: 3px solid transparent;
+    }
+    .role-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 25px 50px rgba(30,64,175,0.25);
+      border-color: var(--primary-light);
+    }
+    .role-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+    .role-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--dark);
+    }
+    .role-desc {
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 50px;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .portal-header {
+        padding: 20px 25px;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .portal-header .logo {
+        justify-content: center;
+      }
+      
+      .portal-header .logo h1 {
+        font-size: 1.8rem;
+      }
+      
+      .header-info {
+        text-align: center;
+      }
+      
+      .roles-grid {
+        padding-top: 180px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .portal-header {
+        padding: 15px 20px;
+      }
+      
+      .portal-header .logo img {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .portal-header .logo h1 {
+        font-size: 1.5rem;
+      }
+      
+      .header-info .admin-title {
+        font-size: 1.2rem;
+      }
+      
+      .roles-grid {
+        padding-top: 200px;
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .role-card {
+        padding: 30px 20px;
+      }
+      
+      .role-icon {
+        font-size: 3rem;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+
+  <div class="container">
+    <!-- REDESIGNED HEADER -->
+    <header class="portal-header">
+      <a href="/" class="logo">
+        <img src="/images/portal-logo.png" alt="IIS Logo">
+        <h1>IIS Portal</h1>
+      </a>
+    
+    </header>
+
+    <div class="roles-grid">
+      <!-- Student -->
+      <div class="role-card" onclick="location.href='/signin.student'">
+        <div class="role-icon">
+          <i class="fas fa-user-graduate"></i>
+        </div>
+        <div class="role-title">Student</div>
+        <div class="role-desc">Access your grades, profile & resources</div>
+      </div>
+
+      <!-- Teacher -->
+      <div class="role-card" onclick="location.href='/signin.teacher'">
+        <div class="role-icon">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <div class="role-title">Teacher</div>
+        <div class="role-desc">Manage grades</div>
+      </div>
+
+     
+
+      <!-- Admin -->
+      <div class="role-card" onclick="location.href='/admin'">
+        <div class="role-icon">
+          <i class="fas fa-user-shield"></i>
+        </div>
+        <div class="role-title">Admin</div>
+        <div class="role-desc">Full access to all registrations & data</div>
+      </div>
+    </div>
+
+   
+  </div>
+
+</body>
+</html>

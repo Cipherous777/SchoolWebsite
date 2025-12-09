@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Portal • <%= teacherName %></title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  
+  <!-- Your existing CSS -->
+  <link rel="stylesheet" href="/CSS/main.css" />
+  <link rel="stylesheet" href="/CSS/register.css" />
+  <link rel="stylesheet" href="/CSS/formStyle.css" />
+
+  <style>
+    :root {
+      --primary: #1e40af;
+      --secondary: #667eea;
+      --white: #ffffff;
+      --light: #f8fafc;
+      --gray: #e2e8f0;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f0f4f8 0%, #e0e7ff 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding-bottom: 80px; /* Space for mobile nav */
+    }
+
+    /* Header - Same as your login pages */
+    .portal-header {
+      background: var(--white);
+      padding: clamp(15px, 3vw, 20px) 5%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .portal-header .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .portal-header .logo img {
+      width: clamp(45px, 8vw, 60px);
+      height: clamp(45px, 8vw, 60px);
+      border-radius: 50%;
+      border: 3px solid var(--primary);
+      object-fit: cover;
+    }
+    .portal-header h1 {
+      color: var(--primary);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(20px, 5vw, 28px);
+      margin: 0;
+    }
+    .welcome-text {
+      font-size: clamp(16px, 3vw, 20px);
+      color: var(--primary);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1300px;
+      margin: clamp(20px, 4vw, 40px) auto;
+      padding: clamp(15px, 3vw, 20px);
+    }
+
+    /* Card */
+    .card {
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      padding: clamp(25px, 4vw, 40px);
+      backdrop-filter: blur(10px);
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      color: var(--primary);
+      font-size: clamp(1.8rem, 5vw, 2.2rem);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    /* Select */
+    select {
+      width: 100%;
+      padding: clamp(15px, 3vw, 18px);
+      font-size: clamp(16px, 2.5vw, 18px);
+      border: 2px solid var(--gray);
+      border-radius: 16px;
+      background: white;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s;
+    }
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.15);
+    }
+
+    /* Desktop Table */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 16px;
+      margin-top: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .desktop-table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+    }
+    
+    .desktop-table th {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: clamp(15px, 2vw, 20px);
+      text-align: center;
+      font-weight: 600;
+      font-size: clamp(14px, 1.8vw, 16px);
+      white-space: nowrap;
+    }
+    
+    .desktop-table td {
+      padding: clamp(15px, 2vw, 18px);
+      text-align: center;
+      background: #fafbff;
+      border-bottom: 1px solid var(--gray);
+      font-size: clamp(14px, 1.8vw, 16px);
+    }
+    
+    .desktop-table tr:hover td {
+      background: #edf2ff;
+    }
+    
+    .desktop-table tr:last-child td { 
+      border-bottom: none; 
+    }
+
+    /* Mobile Student Cards */
+    .mobile-students {
+      display: none;
+      margin-top: 20px;
+    }
+    
+    .student-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-left: 4px solid var(--primary);
+    }
+    
+    .student-header {
+      display: flex;
+      justify-content: between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--gray);
+    }
+    
+    .student-name {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.1rem;
+    }
+    
+    .student-code {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+    
+    .grades-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .grade-item {
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .grade-label {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-bottom: 5px;
+    }
+    
+    .grade-value {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+    
+    .total-grade {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 5px;
+    }
+    
+    .action-btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: clamp(10px, 2vw, 12px) clamp(20px, 3vw, 28px);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+      font-size: clamp(14px, 1.8vw, 16px);
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(30, 64, 175, 0.4);
+    }
+    
+    .btn:active {
+      transform: translateY(-1px);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .modal-content {
+      background: white;
+      width: 100%;
+      max-width: 600px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: modalPop 0.4s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    @keyframes modalPop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: clamp(20px, 3vw, 25px);
+      text-align: center;
+      font-size: clamp(18px, 3vw, 22px);
+      font-weight: 600;
+    }
+    
+    .modal-body {
+      padding: clamp(25px, 4vw, 40px);
+    }
+    
+    .grade-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+    
+    .grade-input {
+      padding: clamp(14px, 2vw, 16px);
+      font-size: clamp(16px, 2.5vw, 18px);
+      text-align: center;
+      border: 2px solid var(--gray);
+      border-radius: 12px;
+      transition: all 0.3s;
+    }
+    
+    .grade-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.2);
+    }
+    
+    .total-display {
+      text-align: center;
+      font-size: clamp(22px, 4vw, 28px);
+      margin: 25px 0;
+      color: var(--primary);
+      font-weight: bold;
+    }
+    
+    .modal-footer {
+      text-align: right;
+      padding: 20px clamp(25px, 4vw, 40px) 30px;
+      gap: 12px;
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    
+    .modal-footer .btn {
+      flex: 1;
+      min-width: 120px;
+      margin: 5px;
+    }
+
+    .no-grade {
+      text-align: center;
+      padding: 80px 20px;
+      color: #64748b;
+      font-size: clamp(18px, 3vw, 20px);
+    }
+
+    /* Mobile Navigation */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-top: 1px solid var(--gray);
+      padding: 12px 20px;
+      z-index: 100;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .nav-items {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+    
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      min-width: 60px;
+    }
+    
+    .nav-tab i {
+      font-size: 1.3rem;
+      color: #64748b;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-tab span {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #64748b;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-tab.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+    
+    .nav-tab.active i,
+    .nav-tab.active span {
+      color: white;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1024px) {
+      .container {
+        max-width: 95%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .portal-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+      
+      .welcome-text {
+        text-align: center;
+      }
+      
+      .desktop-table {
+        display: none;
+      }
+      
+      .mobile-students {
+        display: block;
+      }
+      
+      .mobile-nav {
+        display: block;
+      }
+      
+      .modal-footer {
+        flex-direction: column;
+      }
+      
+      .modal-footer .btn {
+        width: 100%;
+      }
+      
+      .grades-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 20px 15px;
+      }
+      
+      .grade-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .student-card {
+        padding: 15px;
+      }
+      
+      .nav-tab {
+        padding: 6px 12px;
+        min-width: 50px;
+      }
+      
+      .nav-tab i {
+        font-size: 1.1rem;
+      }
+      
+      .nav-tab span {
+        font-size: 0.7rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .container {
+        padding: 10px;
+      }
+      
+      .card {
+        padding: 15px 12px;
+      }
+      
+      .modal-body {
+        padding: 20px 15px;
+      }
+      
+      .modal-footer {
+        padding: 15px 20px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Elegant Header -->
+  <header class="portal-header">
+    <a href="/" class="logo">
+      <img src="/images/portal-logo.png" alt="IIS Logo">
+      <h1>IIS Portal</h1>
+    </a>
+    <div class="welcome-text">
+      Welcome, <strong><%= teacherName %></strong> • <%= teacherSubject %> Teacher
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h2>Select Grade to Enter Grades</h2>
+      
+      <select id="gradeSelect" onchange="loadStudents()">
+        <option value="">-- Choose Grade --</option>
+        <% teacherGrades.forEach(g => { %>
+          <option value="<%= g %>">Grade <%= g %></option>
+        <% }) %>
+      </select>
+
+      <div id="noGrade" class="no-grade">Please select a grade to view students</div>
+      <div id="loading" class="no-grade" style="display:none;">
+        <i class="fas fa-spinner fa-spin fa-3x" style="color:var(--primary);"></i>
+        <p>Loading students...</p>
+      </div>
+
+      <!-- Desktop Table -->
+      <div id="studentsTable" style="display:none;">
+        <h3 style="text-align:center; margin:30px 0; color:var(--primary); font-size:clamp(20px, 4vw, 24px);">
+          <%= teacherSubject %> • Grade <span id="currentGrade"></span>
+        </h3>
+        
+        <div class="table-container">
+          <table class="desktop-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Student Name</th>
+                <th>Code</th>
+                <th>Test 1<br><small>/10</small></th>
+                <th>Test 2<br><small>/10</small></th>
+                <th>Test 3<br><small>/10</small></th>
+                <th>Mid<br><small>/20</small></th>
+                <th>Final<br><small>/50</small></th>
+                <th>Total<br><small>/100</small></th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="studentsBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Mobile Student Cards -->
+        <div class="mobile-students" id="mobileStudents"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <nav class="mobile-nav">
+    <div class="nav-items">
+      <button class="nav-tab active" onclick="scrollToTop()">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </button>
+      <button class="nav-tab" onclick="refreshStudents()">
+        <i class="fas fa-sync-alt"></i>
+        <span>Refresh</span>
+      </button>
+      <button class="nav-tab" onclick="showHelp()">
+        <i class="fas fa-question-circle"></i>
+        <span>Help</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Elegant Modal -->
+  <div id="gradeModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        Enter Grade • <span id="modalStudentName"></span>
+      </div>
+      <div class="modal-body">
+        <div class="grade-grid">
+          <input type="number" id="t1" class="grade-input" placeholder="Test 1" min="0" max="10">
+          <input type="number" id="t2" class="grade-input" placeholder="Test 2" min="0" max="10">
+          <input type="number" id="t3" class="grade-input" placeholder="Test 3" min="0" max="10">
+          <input type="number" id="mid" class="grade-input" placeholder="Mid Exam" min="0" max="20">
+          <input type="number" id="final" class="grade-input" placeholder="Final Exam" min="0" max="50">
+        </div>
+        <div class="total-display">
+          Total: <strong id="totalScore">0</strong> / 100
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" style="background:#94a3b8;" onclick="closeModal()">Cancel</button>
+        <button class="btn" style="background:#ef4444;" onclick="deleteGrade()">Delete Grade</button>
+        <button class="btn" onclick="saveGrade()">Save Grade</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  let currentStudentCode = null;
+
+  async function loadStudents() {
+    const grade = document.getElementById('gradeSelect').value;
+    if (!grade) {
+      document.getElementById('studentsTable').style.display = 'none';
+      document.getElementById('noGrade').style.display = 'block';
+      return;
+    }
+
+    document.getElementById('noGrade').style.display = 'none';
+    document.getElementById('loading').style.display = 'block';
+
+    try {
+      const res = await fetch(`/get-students-grade?grade=${grade}`);
+      const students = await res.json();
+
+      console.log("Loaded students:", students);
+
+      document.getElementById('currentGrade').textContent = grade;
+      const tbody = document.getElementById('studentsBody');
+      const mobileStudents = document.getElementById('mobileStudents');
+      
+      tbody.innerHTML = '';
+      mobileStudents.innerHTML = '';
+
+      students.forEach((s, i) => {
+        const subject = "<%= teacherSubject %>".trim();
+        const g = s.grades?.[subject] || {};
+        const total = (g.t1||0) + (g.t2||0) + (g.t3||0) + (g.mid||0) + (g.final||0);
+
+        // Safe JSON stringify for the onclick - THIS IS THE FIX
+        const gradesJson = JSON.stringify(g).replace(/"/g, '&quot;');
+        const safeName = s.name.replace(/'/g, "\\'");
+
+        // Desktop table row - FIXED ONCLICK
+        tbody.innerHTML += `
+          <tr>
+            <td>${i+1}</td>
+            <td><strong>${s.name}</strong></td>
+            <td>${s.code}</td>
+            <td>${g.t1 ?? '-'}</td>
+            <td>${g.t2 ?? '-'}</td>
+            <td>${g.t3 ?? '-'}</td>
+            <td>${g.mid ?? '-'}</td>
+            <td>${g.final ?? '-'}</td>
+            <td><strong style="color:${total >= 50 ? 'var(--success)' : 'var(--danger)'}">${total}</strong></td>
+            <td><button class="btn" onclick="openEditModal('${s.code}', '${safeName}', '${gradesJson}')">Edit</button></td>
+          </tr>`;
+
+        // Mobile student card - FIXED ONCLICK
+        mobileStudents.innerHTML += `
+          <div class="student-card">
+            <div class="student-header">
+              <div class="student-name">${s.name}</div>
+              <div class="student-code">${s.code}</div>
+            </div>
+            <div class="grades-grid">
+              <div class="grade-item">
+                <div class="grade-label">Test 1</div>
+                <div class="grade-value">${g.t1 ?? '-'}</div>
+              </div>
+              <div class="grade-item">
+                <div class="grade-label">Test 2</div>
+                <div class="grade-value">${g.t2 ?? '-'}</div>
+              </div>
+              <div class="grade-item">
+                <div class="grade-label">Test 3</div>
+                <div class="grade-value">${g.t3 ?? '-'}</div>
+              </div>
+              <div class="grade-item">
+                <div class="grade-label">Mid Exam</div>
+                <div class="grade-value">${g.mid ?? '-'}</div>
+              </div>
+              <div class="grade-item">
+                <div class="grade-label">Final Exam</div>
+                <div class="grade-value">${g.final ?? '-'}</div>
+              </div>
+              <div class="total-grade" style="background: ${total >= 50 ? 'var(--success)' : 'var(--danger)'}">
+                Total: ${total}/100
+              </div>
+            </div>
+            <button class="btn action-btn" onclick="openEditModal('${s.code}', '${safeName}', '${gradesJson}')">
+              Edit Grades
+            </button>
+          </div>`;
+      });
+
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('studentsTable').style.display = 'block';
+      
+      handleResize();
+    } catch (err) {
+      console.error("Error loading students:", err);
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('noGrade').style.display = 'block';
+      document.getElementById('noGrade').innerHTML = '<p>Error loading students. Please try again.</p>';
+    }
+  }
+
+  // FIXED MODAL FUNCTION - This now works properly!
+  function openEditModal(code, name, gradesJson) {
+    console.log("Opening modal for:", code, name, gradesJson);
+    
+    currentStudentCode = code;
+    document.getElementById('modalStudentName').textContent = name;
+    
+    // Parse the grades JSON safely
+    let gradeData = {};
+    try {
+      gradeData = JSON.parse(gradesJson.replace(/&quot;/g, '"'));
+    } catch (e) {
+      console.log("Using empty grades data");
+    }
+    
+    // Fill the form with existing grades
+    document.getElementById('t1').value = gradeData.t1 || '';
+    document.getElementById('t2').value = gradeData.t2 || '';
+    document.getElementById('t3').value = gradeData.t3 || '';
+    document.getElementById('mid').value = gradeData.mid || '';
+    document.getElementById('final').value = gradeData.final || '';
+    
+    calculateTotal();
+    document.getElementById('gradeModal').style.display = 'flex';
+    
+    console.log("Form filled with:", {
+      t1: document.getElementById('t1').value,
+      t2: document.getElementById('t2').value,
+      t3: document.getElementById('t3').value,
+      mid: document.getElementById('mid').value,
+      final: document.getElementById('final').value
+    });
+  }
+
+  function closeModal() {
+    document.getElementById('gradeModal').style.display = 'none';
+  }
+
+  function calculateTotal() {
+    const t1 = Number(document.getElementById('t1').value || 0);
+    const t2 = Number(document.getElementById('t2').value || 0);
+    const t3 = Number(document.getElementById('t3').value || 0);
+    const mid = Number(document.getElementById('mid').value || 0);
+    const final = Number(document.getElementById('final').value || 0);
+    document.getElementById('totalScore').textContent = t1 + t2 + t3 + mid + final;
+  }
+
+  // Auto calculate on input
+  document.querySelectorAll('.grade-input').forEach(input => {
+    input.addEventListener('input', calculateTotal);
+  });
+
+  // SAVE GRADE
+  async function saveGrade() {
+    if (!currentStudentCode) return;
+
+    const subject = "<%= teacherSubject %>".trim();
+
+    const gradeData = {
+      studentCode: currentStudentCode,
+      subject: subject,
+      t1: Number(document.getElementById('t1').value || 0),
+      t2: Number(document.getElementById('t2').value || 0),
+      t3: Number(document.getElementById('t3').value || 0),
+      mid: Number(document.getElementById('mid').value || 0),
+      final: Number(document.getElementById('final').value || 0)
+    };
+
+    try {
+      const response = await fetch('/save-grade-detailed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(gradeData)
+      });
+
+      if (response.ok) {
+        alert("Grade saved successfully!");
+        closeModal();
+        loadStudents();
+      } else {
+        alert("Failed to save grade");
+      }
+    } catch (err) {
+      alert("Network error");
+    }
+  }
+
+  // DELETE ENTIRE GRADE FOR THIS SUBJECT
+  async function deleteGrade() {
+    if (!confirm("Are you sure you want to DELETE this student's grade permanently?")) return;
+
+    const subject = "<%= teacherSubject %>".trim();
+
+    try {
+      await fetch('/delete-grade', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          studentCode: currentStudentCode,
+          subject: subject
+        })
+      });
+
+      alert("Grade deleted successfully");
+      closeModal();
+      loadStudents();
+    } catch (err) {
+      alert("Failed to delete");
+    }
+  }
+
+  // Handle responsive view switching
+  function handleResize() {
+    const isMobile = window.innerWidth <= 768;
+    const desktopTable = document.querySelector('.desktop-table');
+    const mobileStudents = document.getElementById('mobileStudents');
+    
+    if (desktopTable) {
+      desktopTable.style.display = isMobile ? 'none' : 'table';
+    }
+    
+    if (mobileStudents) {
+      mobileStudents.style.display = isMobile ? 'block' : 'none';
+    }
+  }
+
+  // Mobile navigation functions
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function refreshStudents() {
+    loadStudents();
+  }
+
+  function showHelp() {
+    alert("Select a grade to view students. Tap 'Edit' to modify grades. Green totals indicate passing scores (50+).");
+  }
+
+  // Test function - call this in browser console to verify modal works
+  function testModal() {
+    openEditModal('TEST123', 'Test Student', '{"t1":8,"t2":7,"t3":9,"mid":15,"final":40}');
+  }
+
+  // Initialize on load and resize
+  window.addEventListener('load', handleResize);
+  window.addEventListener('resize', handleResize);
+</script>
+</body>
+</html>
