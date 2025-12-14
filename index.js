@@ -9,10 +9,24 @@ const multer = require('multer');
 const PORT = process.env.PORT || 7937;
 
 
-const serviceAccount = require('./firebase-key.json');
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+
+if (process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) {
+  console.log(process.env.FIREBASE_PRIVATE_KEY.slice(0, 50)); 
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    }),
+  });
+} else {
+  const serviceAccount = require('./firebase-key.json');
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
+
+
 const db = admin.firestore();
 
 let studentsData = {};
