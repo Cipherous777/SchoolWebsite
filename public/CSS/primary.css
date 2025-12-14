@@ -196,7 +196,7 @@ ul {
 /* Primary Banner */
 .primary-banner {
   background: linear-gradient(rgba(0, 48, 135, 0.9), rgba(0, 48, 135, 0.8)),
-              url('../Images/primary-banner-bg.jpg') center/cover no-repeat;
+              url('/Images/primary-banner-bg.jpg') center/cover no-repeat;
   color: white;
   text-align: center;
   padding: 6rem 1rem;

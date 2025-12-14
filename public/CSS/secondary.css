@@ -193,7 +193,7 @@ ul {
 
 .secondary-banner {
   background: linear-gradient(rgba(0, 60, 120, 0.88), rgba(0, 60, 120, 0.78)),
-              url('../Images/secondary-banner-bg.jpg') center/cover no-repeat;
+              url('/Images/secondary-banner-bg.jpg') center/cover no-repeat;
   color: #fff;
   text-align: center;
   padding: 7rem 1rem;
