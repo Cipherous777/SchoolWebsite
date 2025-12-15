@@ -116,9 +116,9 @@ app.get("/portal.parent", (req, res) => res.render("parentPortal"));
 app.get("/portal.admin", async (req, res) => {
   try {
     const [regSnap, teacherSnap, studentSnap] = await Promise.all([
-      db.collection("students").get(),                    // ← your registered students with codes
-      db.collection("applicants").get(),                  // ← THIS IS YOUR REAL COLLECTION NAME
-      db.collection("studentApplications").get()         // ← new student registration forms
+      db.collection("students").get(),               
+      db.collection("applicants").get(),                
+      db.collection("studentApplications").get()         
     ]);
 
     const registeredStudents = regSnap.docs.map(d => d.data());
@@ -150,12 +150,10 @@ app.get("/portal.admin", async (req, res) => {
   }
 });
 
-// ==================== SIGN IN PAGE ====================
 app.get('/signin.student', (req, res) => {
   res.render('loginStudent');
 });
-// ==================== TEACHER SIGN IN — EXACT SAME AS STUDENT ====================
-// TEACHER SIGN-IN — 100% WORKING — SAME PATTERN AS STUDENT
+
 app.post('/signin.teacher', async (req, res) => {
   const { code } = req.body;
   const cleanCode = code.trim();
